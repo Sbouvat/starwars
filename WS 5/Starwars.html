@@ -1,0 +1,161 @@
+<html>
+<head>
+    <style type="text/css">
+        div {
+            border: solid black 1px;
+            display: inline-block;
+            padding: 10px;
+            margin: 10px;
+            font-size: 1.3em;
+        }
+        img{
+          width:100px;
+          height:100px;
+        }
+
+        .selected {
+            color:red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/javascript" src="../react/react.js"></script>
+    <script type="text/javascript" src="../react/JSXTransformer.js"></script>
+   <script type="text/javascript">
+    
+        var scoreOf = {};
+        var scoreIs = function(point) {
+            return function (letter) {
+                scoreOf[letter] = Letter;
+            };
+        };
+       // var letters = ['Y','Z','Q','O','R','K','W','X','H','V','G','I','L','P','S','T','U','F','A','E','D','N','B','C','M','J'];
+var letters = [{
+  'author': '../img/Yoda.jpg',
+  'quote': 'When 900 years old, you reach… Look as good, you will not.'
+//  'image': 'Yoda.jpg'
+}, {
+  'author': '../img/palpatine.jpg',
+  'quote': 'The Dark Side of the Force is the pathway to many abilities some consider to be.. Unnatural.'
+//  'image': 'palpatine.jpg'
+}, {
+  'author': '../img/Dooku.jpg',
+  'quote': 'I sense great fear in you, Skywalker. You have hate… you have anger… but you don’t use them.'
+//  'image': 'Dooku.jpg'
+}, {
+  'author': '../img/dark-vador.jpg',
+  'quote': 'Luke, you can destroy the Emperor. He has foreseen this. It is your destiny. Join me, and together we can rule the galaxy as father and son.'
+//  'image': 'dark-vador.jpg'
+}, {
+  'author': '../img/Leia.jpg',
+  'quote': 'Aren\'t you a little short for a storm trooper?'
+ // 'image': 'Leia.jpg'
+}, {
+  'author': '../img/Yoda.jpg',
+  'quote': 'Mmm. Lost a planet, Master Obi-Wan has. How embarrassing.'
+//  'image': 'Yoda.jpg'
+}, {
+  'author': '../img/Qui-Gon_Jinn.jpg',
+  'quote': 'Your focus determines your reality'
+//  'image': 'Qui-Gon_Jinn.jpg'
+}, {
+  'author': '../img/Yoda.jpg',
+  'quote': 'Do. Or do not. There is no try.'
+//  'image': 'Yoda.jpg'
+}, {
+  'author': '../img/Obi-wan.jpg',
+  'quote': 'In my experience there is no such thing as luck.'
+//  'image': 'Obi-wan.jpg'
+}, {
+  'author': '../img/Yoda.jpg',
+  'quote': 'If once you start down the dark side, forever will it dominate your destiney, consume you it will, as it did Obi-Wan\'s apprentice'
+//  'image': 'Yoda.jpg'
+}, {
+  'author': '../img/dark-vador.jpg',
+  'quote': 'The Force is strong with this one.'
+//  'image': 'dark-vador.jpg'
+}];
+     /*   ['A','E','I','L','N','O','R','S','T','U'].forEach(scoreIs(1));
+        ['D','M','G'].forEach(scoreIs(2));
+        ['B','C','P'].forEach(scoreIs(3));
+        ['F','H','V'].forEach(scoreIs(4));
+        ['J','Q'].forEach(scoreIs(8));
+        ['K','W','X','Y','Z'].forEach(scoreIs(10));*/
+                        
+    </script>
+    
+    <script type="text/jsx">
+
+    var Tree =  React.createClass({
+        render : function () {
+            return (<div>
+
+                <Letters onLetterSelected={this.selectLetter}/>
+                <Score letter={this.state.letter}/>
+
+            </div>);
+        },
+
+        getInitialState : function() {
+            return{
+                letter : ''
+            }
+        },
+
+        selectLetter : function (newLetter) {
+            return this.setState({letter : newLetter});
+        }
+    });
+
+    var Letters = React.createClass({
+
+        render : function () {
+            var handler = this.props.onLetterSelected;
+
+            return (<div>
+                {letters.map(function(item) {
+                    return <Letter itemValue={item} whenClick={handler} />;
+                })}
+            </div>);
+        },
+
+    });
+
+    var Letter = React.createClass({
+
+        render : function () {
+            var classname = this.state.selected ? 'selected' : '';
+            return (<div className={classname} onClick={this.handleClick}> <img src = {this.props.itemValue.author} /> </div>);
+        },
+
+        getInitialState : function () {
+            return {selected : false };
+        },
+
+        handleClick : function () {
+            this.props.whenClick(this.props.itemValue.quote);
+            this.setState({selected : true});
+        }
+    });
+              
+
+    var Score = React.createClass({
+
+        render : function () {
+            return (<div>
+                La citation du personnage est: {this.props.letter}
+            </div>);
+        },
+
+    });
+
+
+    React.render(<Tree />, document.getElementById('root'));
+
+    </script>
+</body>
+</html>
